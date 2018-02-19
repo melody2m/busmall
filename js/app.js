@@ -51,8 +51,24 @@ function renderList(){
 }
 
 function randomProd(event) {
+    slideCount++;
+    if (slideCount === 25){
+        renderList();
+    }
+
     if (foundNumbers.length === 6){
         foundNumbers.splice(0, 3);
+    }
+    
+    if (slideCount > 1) {
+        for (var i = 0; i < Prod.allProds.length; i++){
+            if (event.target.title === Prod.allProds[i].name){
+                console.log(event.target.title)
+                console.log(Prod.allProds[i].name)
+                Prod.allProds[i].clicks++;
+                console.log(Prod.allProds[i].clicks)
+            }  
+        }
     }
 
     var randomProd = Math.floor(Math.random() * Prod.allProds.length);
@@ -63,11 +79,11 @@ function randomProd(event) {
     }
     foundNumbers.push(randomProd);
     Prod.allProds[randomProd].displays++;
-
+    
     prod1.src = Prod.allProds[randomProd].filepath;
     prod1.title = Prod.allProds[randomProd].name;
     prod1.alt = Prod.allProds[randomProd].name;
-
+    
     var randomProd2 = Math.floor(Math.random() * Prod.allProds.length);
     for (var i = 0; i < foundNumbers.length; i++){
         while (randomProd2 === foundNumbers[i]){
@@ -94,17 +110,6 @@ function randomProd(event) {
     prod3.title = Prod.allProds[randomProd3].name;
     prod3.alt = Prod.allProds[randomProd3].name;
 
-    if (slideCount > 0) {
-        for (var i = 0; i < Prod.allProds.length; i++){
-            if (event.target.title === Prod.allProds[i].name){
-                Prod.allProds[i].clicks++;
-            }  
-        }
-    }
-    slideCount++;
-    if (slideCount > 25){
-        renderList();
-    }
 }
 
 
