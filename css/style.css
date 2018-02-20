@@ -1,4 +1,10 @@
+body {
+    font-family: 'Averia Libre', cursive;
+    text-align:center;
+}
+
 img {
     height:200px;
     width:200px;
+    border: 4px groove black;
 }
