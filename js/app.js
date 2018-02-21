@@ -5,6 +5,7 @@ var slideCount = 0;
 var foundNumbers = [];
 var titleData = [];
 var clickData = [];
+var clickRetrieve = [];
 
 function Prod(name, filepath) {
     this.name = name;
@@ -46,27 +47,29 @@ function renderList(){
     prod3.style.display = "none";
     instruction.style.display = "none";
 
-    // var list = document.getElementById('list');
-
-    // for (var i = 0; i < Prod.allProds.length; i++){
-    //     var newLi = document.createElement('li');
-    //     newLi.textContent = Prod.allProds[i].name + ": " + Prod.allProds[i].displays + " displays, " + Prod.allProds[i].clicks + " clicks";
-    //     console.log(list)
-    //     list.appendChild(newLi);
-    // }
-
     for (var i = 0; i < Prod.allProds.length; i++){
-        titleData.push(Prod.allProds[i].name);
-        clickData.push(Prod.allProds[i].clicks);
+        titleData[i] = Prod.allProds[i].name;
+        if (clickRetrieve === null){
+            clickData[i] = Prod.allProds[i].clicks;
+        }
+        else {
+            clickData[i] = Prod.allProds[i].clicks + clickRetrieve[i];      
     }
+
+    localStorage.setItem('clickStorage', JSON.stringify(clickData));
+
     console.log (titleData);
     console.log(clickData);
 
     drawChart();
+    }
 }
 
 
 function randomProd(event) {
+    
+    console.log(localStorage);
+
     slideCount++;
     if (slideCount === 26){
         renderList();
@@ -203,9 +206,12 @@ var myChart = new Chart(ctx, {
 });
 }
 
-
+function getLocal(){
+    clickRetrieve = JSON.parse(localStorage.getItem('clickStorage'));
+}
 
 randomProd();
 
 clickArea.addEventListener('click', randomProd);
 
+window.addEventListener('load', getLocal);
