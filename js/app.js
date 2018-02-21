@@ -3,6 +3,8 @@
 Prod.allProds = [];
 var slideCount = 0;
 var foundNumbers = [];
+var titleData = [];
+var clickData = [];
 
 function Prod(name, filepath) {
     this.name = name;
@@ -39,20 +41,34 @@ var prod3 = document.getElementById('prod3');
 
 function renderList(){
     clickArea.removeEventListener('click', randomProd);
+    prod1.style.display = "none";
+    prod2.style.display = "none";
+    prod3.style.display = "none";
+    instruction.style.display = "none";
 
-    var list = document.getElementById('list');
+    // var list = document.getElementById('list');
+
+    // for (var i = 0; i < Prod.allProds.length; i++){
+    //     var newLi = document.createElement('li');
+    //     newLi.textContent = Prod.allProds[i].name + ": " + Prod.allProds[i].displays + " displays, " + Prod.allProds[i].clicks + " clicks";
+    //     console.log(list)
+    //     list.appendChild(newLi);
+    // }
 
     for (var i = 0; i < Prod.allProds.length; i++){
-        var newLi = document.createElement('li');
-        newLi.textContent = Prod.allProds[i].name + ": " + Prod.allProds[i].displays + " displays, " + Prod.allProds[i].clicks + " clicks";
-        console.log(list)
-        list.appendChild(newLi);
+        titleData.push(Prod.allProds[i].name);
+        clickData.push(Prod.allProds[i].clicks);
     }
+    console.log (titleData);
+    console.log(clickData);
+
+    drawChart();
 }
+
 
 function randomProd(event) {
     slideCount++;
-    if (slideCount === 25){
+    if (slideCount === 26){
         renderList();
     }
 
@@ -63,10 +79,7 @@ function randomProd(event) {
     if (slideCount > 1) {
         for (var i = 0; i < Prod.allProds.length; i++){
             if (event.target.title === Prod.allProds[i].name){
-                console.log(event.target.title)
-                console.log(Prod.allProds[i].name)
                 Prod.allProds[i].clicks++;
-                console.log(Prod.allProds[i].clicks)
             }  
         }
     }
@@ -110,7 +123,86 @@ function randomProd(event) {
     prod3.title = Prod.allProds[randomProd3].name;
     prod3.alt = Prod.allProds[randomProd3].name;
 
+    clickCounter.textContent = "votes remaining: " + (26 - slideCount);
+
 }
+
+function drawChart(){
+    var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: titleData,
+        datasets: [{
+            label: '# of Votes',
+            data: clickData,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+}
+
 
 
 randomProd();
